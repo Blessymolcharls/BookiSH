@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookiSH - Login</title>
+  <link rel="stylesheet" href="assets/css/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Welcome to BookiSH</h1>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Simple validation (replace with actual authentication logic)
+      if (username === 'admin' && password === 'password') {
+        alert('Login successful!');
+        window.location.href = 'library.html'; // Redirect to library page
+      } else {
+        alert('Invalid username or password. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "12345678901234",
+    "name": "Jane Eyre",
+    "author": "Charlotte Brontë",
+    "student": ""
+  },
+  {
+    "id": "34246576879861",
+    "name": "War and Peace",
+    "author": "Leo Tolstoy",
+    "student": ""
+  },
+  {
+    "id": "1745257889273",
+    "name": "Harry Potter ",
+    "author": "JK Rowling",
+    "student": ""
+  },
+  {
+    "id": "1745258117574",
+    "name": "Romeo and Juliet",
+    "author": "William Shakespeare",
+    "student": ""
+  },
+  {
+    "id": "1745258117575",
+    "name": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "student": ""
+  },
+  {
+    "id": "999",
+    "name": "Test",
+    "author": "Tester",
+    "student": ""
+  }
+]

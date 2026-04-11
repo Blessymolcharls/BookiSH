@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookiSH Library</title>
+  <link rel="stylesheet" href="assets/css/library.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h1>📚 BookiSH</h1>
+    <nav>
+      <ul>
+        <li><a href="#library">Library</a></li>
+        <li><a href="#borrow">Borrow</a></li>
+        <li><a href="#return">Return</a></li>
+        <li><a href="#add">Add Book</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="main">
+    <header>
+      <input type="text" placeholder="Search by Title, Author, or ID..." id="searchInput"/>
+      <div style="display:flex; align-items:center; gap:15px;">
+        <span class="user">Welcome, Reader</span>
+        <a href="login.html" class="login-button">Logout</a>
+      </div>
+    </header>
+
+    <section id="library">
+      <h2>List of Books</h2>
+      <div id="bookList" style="display: flex; flex-wrap: wrap; gap: 1rem;"></div>
+    </section>
+
+    <!-- Unified interactive elements like datalists for accessible searching -->
+    <datalist id="bookIds"></datalist>
+    <datalist id="borrowedBookIds"></datalist>
+
+    <section id="borrow">
+      <h2>Borrow a Book</h2>
+      <form id="borrowForm">
+        <input type="text" id="borrowTitle" placeholder="Book ID (Pick from list)" required list="bookIds" autocomplete="off" />
+        <input type="text" id="borrower" placeholder="Your Name" required />
+        <button type="submit">Borrow</button>
+      </form>
+    </section>
+
+    <section id="return">
+      <h2>Return a Book</h2>
+      <form id="returnForm">
+        <input type="text" id="returnTitle" placeholder="Book ID (Pick from list)" required list="borrowedBookIds" autocomplete="off" />
+        <button type="submit">Return</button>
+      </form>
+    </section>
+
+    <section id="add">
+      <h2>Add a New Book</h2>
+      <form id="addForm">
+        <input type="text" id="newTitle" placeholder="Book Title" required />
+        <input type="text" id="newAuthor" placeholder="Author" required />
+        <button type="submit">Add Book</button>
+      </form>
+    </section>
+
+    <section id="resources">
+      <h2>More About Books</h2>
+      <ul>
+        <li><a href="https://www.gutenberg.org/" target="_blank">Project Gutenberg</a></li>
+        <li><a href="https://www.goodreads.com/" target="_blank">Goodreads</a></li>
+        <li><a href="https://openlibrary.org/" target="_blank">Open Library</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script src="assets/js/library.js"></script>
+</body>
+</html>
