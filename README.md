@@ -71,6 +71,8 @@ FOC-C/
 ├── library.html                   # 📚 Main library interface
 ├── books.json                     # 💾 Book database
 ├── server.c                       # ⚙️ C CGI Backend Router & API Server
+├── cgi-bin/
+│   └── c_program.cgi              # 🔧 Compiled C CGI executable
 └── assets/
     ├── css/
     │   ├── index.css              # Home page styling
@@ -93,7 +95,7 @@ FOC-C/
 
 **Step 1:** Clone or download the repository
 ```bash
-git clone https://github.com/yourusername/BookiSH.git
+git clone https://github.com/Blessymolcharls/BookiSH.git
 cd BookiSH
 ```
 
