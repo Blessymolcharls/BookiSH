@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
+
 #define MAX_BOOKS 1000
 
 // ---------------- STRUCT ----------------
@@ -50,6 +55,12 @@ char *get_json_val(const char *json, const char *key, char *out,
 
   strncpy(out, start, len);
   out[len] = '\0';
+
+  // Strip trailing \r to handle Windows CRLF line endings
+  while (len > 0 && out[len - 1] == '\r') {
+    out[--len] = '\0';
+  }
+
   return out;
 }
 
@@ -167,6 +178,15 @@ void send_response(int status, const char *msg) {
 
 // ---------------- MAIN ----------------
 int main() {
+#ifdef _WIN32
+  // Switch stdout and stdin to binary mode so \r\n in printf
+  // is not doubled to \r\r\n by Windows text-mode translation.
+  // Without this, Python's CGI header parser reads the JSON body
+  // as a header line and returns an empty response.
+  _setmode(_fileno(stdout), _O_BINARY);
+  _setmode(_fileno(stdin),  _O_BINARY);
+#endif
+
   char *method = getenv("REQUEST_METHOD");
 
   // Default to GET if not set (for basic CLI testing)

@@ -2,22 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookiSH - Welcome</title>
-  <link rel="stylesheet" href="assets/css/index.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookiSH — Welcome</title>
+  <meta name="description" content="BookiSH — your modern library management system. Explore, borrow, and return books with ease."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    .fade-up { animation: fadeUp .6s ease-out both; }
+    .float   { animation: float 3s ease-in-out infinite; }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <h1 class="title">📚 Welcome to BookiSH</h1>
-    </header>
-    <main>
-      <p class="description">Your one-stop destination for all things books. Explore, borrow, and return books with ease!</p>
-      <a href="login.html" class="cta-button login-button">Login</a>
-    </main>
-    <footer>
-      <p>© 2023 BookiSH. All rights reserved.</p>
-    </footer>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex flex-col items-center justify-center px-4 relative overflow-hidden">
+
+  <!-- Background blobs -->
+  <div class="absolute top-1/4 -left-20 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -right-20 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="relative z-10 text-center max-w-xl mx-auto fade-up">
+
+    <!-- Icon -->
+    <div class="float inline-block mb-6">
+      <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-2xl shadow-indigo-500/30 mx-auto">
+        <span class="text-4xl">📚</span>
+      </div>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+      Welcome to <span class="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">BookiSH</span>
+    </h1>
+    <p class="text-slate-400 text-lg mb-10 leading-relaxed">
+      Your modern library management system.<br/>Explore, borrow, and return books with ease.
+    </p>
+
+    <a href="login.html"
+       class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold
+              px-8 py-4 rounded-2xl text-base transition-all duration-200
+              hover:shadow-2xl hover:shadow-indigo-500/40 hover:-translate-y-1 active:scale-95">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+      </svg>
+      Get Started
+    </a>
+
+    <!-- Feature pills -->
+    <div class="flex flex-wrap justify-center gap-3 mt-10">
+      <span class="bg-white/5 border border-white/10 text-slate-300 text-xs font-medium px-4 py-2 rounded-full">📖 Browse Books</span>
+      <span class="bg-white/5 border border-white/10 text-slate-300 text-xs font-medium px-4 py-2 rounded-full">🔄 Borrow & Return</span>
+      <span class="bg-white/5 border border-white/10 text-slate-300 text-xs font-medium px-4 py-2 rounded-full">➕ Add to Collection</span>
+    </div>
   </div>
+
+  <footer class="absolute bottom-6 text-slate-600 text-xs">© 2025 BookiSH · All rights reserved.</footer>
 </body>
 </html>
