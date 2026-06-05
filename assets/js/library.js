@@ -6,7 +6,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const bookList   = document.getElementById('bookList');
     const searchInput = document.getElementById('searchInput');
 
-    loadBooks();
+    const needsBooks = Boolean(
+        bookList ||
+        addForm ||
+        borrowForm ||
+        returnForm ||
+        document.getElementById('bookIds') ||
+        document.getElementById('borrowedBookIds') ||
+        document.getElementById('statTotal') ||
+        document.getElementById('statAvailable') ||
+        document.getElementById('statBorrowed')
+    );
+
+    if (needsBooks) {
+        loadBooks();
+    }
 
     // ─── FETCH FROM CGI ────────────────────────────────────────────────────
     function loadBooks() {

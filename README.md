@@ -1,233 +1,91 @@
-# 📚 BookiSH - Library Management System
+# BookiSH – Library Management System
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
-[![HTML5](https://img.shields.io/badge/HTML5-E34C26?style=flat&logo=html5&logoColor=white)]()
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)]()
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)]()
-[![C](https://img.shields.io/badge/C-00599C?style=flat&logo=c&logoColor=white)]()
+BookiSH is a lightweight, easy-to-deploy Library Management System built with plain HTML, CSS, JavaScript, and C-based CGI for server-side handling.
 
----
+## Features
 
-## 📖 Introduction
+- Add, list, borrow, and return books (client-side UI + CGI-backed actions).
+- Minimal server component implemented in C (`server.c` / `c_program.cgi`).
+- Static front-end: responsive HTML/CSS with small JavaScript for UX.
+- Works with a JSON-backed demo dataset (`books.json`).
 
-**BookiSH** is a modern, user-friendly web-based library management system designed to streamline the process of managing book collections, tracking borrowers, and organizing library operations. Whether you're managing a school library, personal collection, or community book exchange, BookiSH makes it simple and efficient.
+## Tech Stack
 
-The project uses a robust **C-based CGI Backend** that parses and persists data safely via JSON, making it a complete full-stack web application with no external dependencies.
+- Frontend: HTML, CSS, JavaScript
+- Server-side: C (CGI program) and/or simple static hosting for demo mode
+- Data: `books.json` (demo)
 
----
+## Repository Structure
 
-## 🎯 Problem Statement
+The project root contains the core HTML pages and assets:
 
-Managing physical book collections and tracking borrowers can be time-consuming and error-prone. BookiSH solves this by providing a centralized platform where librarians and users can:
-- Maintain an organized digital catalog
-- Track who is borrowing which books
-- Quickly check book availability
-- Add or remove books with ease
+- add.html — UI to add a new book
+- borrow.html — Borrowing workflow UI
+- return.html — Returning workflow UI
+- index.html — Home / landing page
+- library.html — Main book listing
+- login.html — Simple login page (UI only)
+- resources.html — Additional resources/help
+- books.json — Demo dataset used by the frontend
+- server.c — C server/CGI example (compile & deploy as needed)
+- c_program.cgi — Compiled CGI binary (example placed in `cgi-bin/`)
+- assets/
+  - css/ — stylesheets (`index.css`, `library.css`, `login.css`)
+  - js/ — frontend scripts (`library.js`)
+- cgi-bin/ — location for CGI executables
 
----
+Use these files as the basis for customization or replacement with a full backend.
 
-## 👥 Target Users
+## Quickstart — Run Locally (Static Demo)
 
-- 📚 **Librarians** - Manage library operations and book inventory
-- 🎓 **Students** - Borrow and return books from school/university libraries
-- 👨‍👩‍👧 **Community Members** - Access shared book collections
-- 🏫 **Educational Institutions** - Manage student borrowing records
+For most development and demo purposes you can run the frontend as static files using a simple HTTP server. From the project root run:
 
----
+```powershell
+# Python 3.x
+python -m http.server 8000
 
-## ✨ Key Features
-
-✅ **User Authentication** - Secure login system to access the library  
-✅ **Book Catalog** - Browse all available books with detailed information  
-✅ **Smart Availability Tracking** - See which books are available or borrowed  
-✅ **Intelligent Searching** - Filter in real-time by Title, Author, or Book ID  
-✅ **Dynamic Datalists** - Auto-suggest available books for borrowing and returning  
-✅ **CRUD Capabilities** - Add, View, Borrow, Return, and Delete books safely  
-✅ **C CGI Backend** - Native C binary handling REST-like API interactions  
-✅ **Responsive UI** - Glassmorphism, animations, and uniform design variables across mobile and desktop  
-
----
-
-## 🛠️ Tech Stack
-
-| Component | Technology |
-|-----------|-----------|
-| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
-| **Backend** | Native C (CGI - Common Gateway Interface) |
-| **Data Store** | JSON (`books.json`) |
-| **Local Server** | Python 3 (`http.server --cgi`) |
-
----
-
-## 📂 Project Structure
-
-```text
-BookiSH/
-├── README.md                      # Project documentation
-├── .gitignore                     # Git ignore rules
-├── index.html                     # 🏠 Welcome landing page
-├── login.html                     # 🔐 User authentication
-├── library.html                   # 📚 Main library interface
-├── books.json                     # 💾 Book database (JSON flat-file)
-├── server.c                       # ⚙️  C CGI backend — API router & data handler
-├── cgi-bin/
-│   └── c_program.exe              # 🔧 Compiled C CGI executable (Windows)
-└── assets/
-    ├── css/
-    │   ├── index.css              # Home page styling
-    │   ├── login.css              # Login page styling
-    │   └── library.css            # Library page styling
-    └── js/
-        └── library.js             # Frontend async API calls & DOM manipulation
+# then open http://localhost:8000 in your browser
 ```
 
----
+The static demo will use `books.json` and client-side logic in `assets/js/library.js` to showcase the UI and flows.
 
-## 🚀 Installation & Setup
+## Quickstart — Run CGI (Linux/macOS or Windows with CGI-capable server)
 
-### Prerequisites
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- **GCC** compiler (e.g. [MinGW-w64](https://www.mingw-w64.org/) on Windows)
-- **Python 3** (for the local CGI dev server)
-
-### Quick Start
-
-**Step 1:** Clone the repository
-```bash
-git clone https://github.com/Blessymolcharls/BookiSH.git
-cd BookiSH
-```
-
-**Step 2:** Create the `cgi-bin` directory (if it doesn't already exist)
-```bash
-mkdir cgi-bin
-```
-
-**Step 3:** Compile the C backend
-
-> ⚠️ **Windows:** Compile to `.exe` — Python's CGI server on Windows uses file associations to run scripts, and only `.exe` files execute natively.
+1. Compile `server.c` or your CGI program on the host that will run it. Example (Linux):
 
 ```bash
-# Windows (MinGW / GCC)
-gcc server.c -o cgi-bin/c_program.exe
-
-# Linux / macOS
-gcc server.c -o cgi-bin/c_program.cgi
-chmod +x cgi-bin/c_program.cgi
+gcc -o c_program.cgi server.c
+chmod +x c_program.cgi
 ```
 
-**Step 4:** Start the local CGI server
-```bash
-# Run from the project root directory (where books.json lives)
-python -m http.server --cgi 8000
-```
+2. Place the `c_program.cgi` binary into your server's `cgi-bin` directory and configure your web server (Apache, nginx+fcgiwrap, or other) to allow CGI execution.
 
-**Step 5:** Open the app
-- Visit `http://localhost:8000`
-- Click **Login** to access the library dashboard
+3. Restart the server and test the CGI endpoints via the HTML pages.
 
----
+Notes:
+- CGI setup varies by OS and webserver — consult your webserver docs for enabling CGI and configuring `cgi-bin`.
+- On Windows, consider using WSL or a webserver that supports CGI for best compatibility.
 
-## 💡 Usage Guide
+## Data
 
-### Getting Started
-1. **Home Page** — Review the project introduction
-2. **Login** — Authenticate with your credentials (`admin` / `password`)
-3. **Library Dashboard** — Browse and manage books
+This project uses `books.json` as a demo dataset located at the repository root. For production use, replace client-side storage with a proper database and secure server-side endpoints.
 
-### Common Tasks
+## Customization
 
-#### 📖 Browsing & Searching
-```
-Type in the search bar at the top — the book grid filters instantly
-by Title, Author, or Book ID.
-```
+- Replace the CGI program with a REST API (Node, Python, Go, etc.) and update form action URLs accordingly.
+- Migrate `books.json` to an actual database (SQLite/MySQL/Postgres) for persistent storage.
+- Improve authentication (the current `login.html` is UI-only and not secure).
 
-#### ✅ Borrowing a Book
-```
-1. Scroll to "Borrow a Book".
-2. Click the Book ID field — a smart dropdown shows only AVAILABLE books.
-3. Enter your name.
-4. Press "Borrow". The record is saved immediately to books.json.
-```
+## Contributing
 
-#### 🔄 Returning a Book
-```
-1. Scroll to "Return a Book".
-2. Select the Book ID from the dropdown (only borrowed books appear).
-3. Click "Return". The book is marked available again.
-```
+Contributions are welcome. Please follow these steps:
 
-#### ➕ Adding & Deleting Books
-```
-- Add:    Fill in Title and Author under "Add a New Book". An ID is auto-generated.
-- Delete: Click the red "Delete Book" button on any book card in the library grid.
-```
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/my-feature`.
+3. Make your changes and include tests where applicable.
+4. Open a pull request describing your changes.
 
----
+Guidelines:
+- Keep changes focused and documented.
+- If adding server-side features, include clear setup and run instructions.
 
-## 📖 Data Structure
-
-### Book Object (`books.json`)
-Records are saved persistently by the C backend:
-
-```json
-{
-  "id": "1234567890",
-  "name": "Jane Eyre",
-  "author": "Charlotte Brontë",
-  "student": "Blessy"
-}
-```
-
-| Field | Description |
-|-------|-------------|
-| `id` | Auto-generated unique numeric identifier |
-| `name` | Book title |
-| `author` | Author name |
-| `student` | Current borrower's name — empty string `""` if available |
-
----
-
-## ⚠️ Known Gotchas
-
-| Issue | Cause | Fix |
-|-------|-------|-----|
-| `Operation failed` on borrow/return | JS calling wrong CGI path or CGI not executable | Compile to `.exe` on Windows; ensure server runs from project root |
-| Books show "Already Borrowed" incorrectly | `books.json` has Windows CRLF (`\r\n`) line endings — `\r` bleeds into parsed values | The C parser strips trailing `\r` from all extracted fields |
-| CGI not found (404) | Server not started from project root | Always run `python -m http.server --cgi 8000` from the `BookiSH/` directory |
-
----
-
-## 🔮 Future Enhancements
-
-### Phase 2 — Advanced Data Models
-- 🗄️ Migration to SQLite via C `sqlite3` API
-- 🔑 Session-based or JWT authentication
-
-### Phase 3 — Advanced Features
-- 📅 Due date tracking and overdue notifications
-- 📊 Admin dashboard with borrowing analytics
-- ⭐ Book ratings and reviews
-
----
-
-## 🤝 Contributors
-
-- **Blessy** — Project Lead & Developer
-- **San** — Testing & Documentation
-
----
-
-## 📋 License
-
-This project is licensed under the **MIT License**.
-
----
-
-## 🙏 Conclusion
-
-BookiSH modernizes library management using foundational technologies — native C for the backend and Vanilla JS for the frontend — with no heavy frameworks or external dependencies. It serves as a demonstration of how CGI can power a functional full-stack web app from first principles.
-
-**Happy reading! 📚✨**

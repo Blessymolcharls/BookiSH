@@ -3,7 +3,7 @@
     "id": "12345678901234",
     "name": "Jane Eyre",
     "author": "Charlotte Brontë",
-    "student": "Blessy"
+    "student": ""
   },
   {
     "id": "34246576879861",
@@ -15,13 +15,13 @@
     "id": "1745257889273",
     "name": "Harry Potter ",
     "author": "JK Rowling",
-    "student": "TestTest"
+    "student": ""
   },
   {
     "id": "1745258117574",
     "name": "Romeo and Juliet",
     "author": "William Shakespeare",
-    "student": "Blessy"
+    "student": ""
   },
   {
     "id": "1745258117575",

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BookiSH — Library Dashboard</title>
-  <meta name="description" content="BookiSH Library Dashboard — browse, borrow, return and manage books."/>
+  <title>BookiSH — Add Book</title>
+  <meta name="description" content="Add a new book to the BookiSH library."/>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,13 +14,10 @@
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
     .fade-up  { animation: fadeUp .35s ease-out both; }
-    .spinning { animation: spin 1s linear infinite; }
-    .book-card { animation: fadeUp .3s ease-out both; }
   </style>
 </head>
-<body class="bg-slate-50 text-gray-800 min-h-screen" data-page="library">
+<body class="bg-slate-50 text-gray-800 min-h-screen" data-page="add">
 
   <!-- Mobile overlay -->
   <div id="overlay" onclick="closeSidebar()"
@@ -44,7 +41,7 @@
     <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
 
       <a href="library.html" onclick="activate(this)" data-page="library"
-        class="nav-link active-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200">
+         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
         </svg>
@@ -52,7 +49,7 @@
       </a>
 
       <a href="borrow.html" onclick="activate(this)" data-page="borrow"
-        class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
         </svg>
@@ -60,7 +57,7 @@
       </a>
 
       <a href="return.html" onclick="activate(this)" data-page="return"
-        class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
         </svg>
@@ -68,7 +65,7 @@
       </a>
 
       <a href="add.html" onclick="activate(this)" data-page="add"
-        class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
         </svg>
@@ -76,7 +73,7 @@
       </a>
 
       <a href="resources.html" onclick="activate(this)" data-page="resources"
-        class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.1-1.1m-.758-4.9a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
         </svg>
@@ -108,14 +105,9 @@
         </svg>
       </button>
 
-      <!-- Search -->
-      <div class="relative flex-1 max-w-sm">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
-        </svg>
-        <input type="text" id="searchInput" placeholder="Search title, author, or ID…"
-               class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl
-                      focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"/>
+      <div class="flex flex-col">
+        <span class="text-xs text-gray-500">Library System</span>
+        <h1 class="text-sm font-semibold text-gray-900">Add Book</h1>
       </div>
 
       <!-- Right -->
@@ -136,69 +128,44 @@
     </header>
 
     <!-- Page Content -->
-    <main class="flex-1 px-4 lg:px-8 py-8 space-y-10">
-
-      <!-- Stats Row -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 fade-up">
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow">
-          <div class="w-11 h-11 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
-            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+    <main class="flex-1 px-4 lg:px-8 py-8">
+      <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 max-w-lg fade-up">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
           </div>
           <div>
-            <p class="text-2xl font-bold text-gray-900" id="statTotal">—</p>
-            <p class="text-xs text-gray-500 font-medium mt-0.5">Total Books</p>
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow">
-          <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
-            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-gray-900" id="statAvailable">—</p>
-            <p class="text-xs text-gray-500 font-medium mt-0.5">Available</p>
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow">
-          <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
-            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-gray-900" id="statBorrowed">—</p>
-            <p class="text-xs text-gray-500 font-medium mt-0.5">Borrowed</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Library Section -->
-      <section id="library">
-        <div class="flex items-center justify-between mb-5">
-          <div>
-            <h2 class="text-lg font-bold text-gray-900">Book Collection</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Browse and manage all books in the library</p>
-          </div>
-          <div id="loadingSpinner" class="flex items-center gap-2 text-indigo-500 text-sm font-medium">
-            <svg class="w-4 h-4 spinning" viewBox="0 0 24 24" fill="none">
-              <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-            </svg>
-            Loading…
+            <h2 class="text-base font-bold text-gray-900">Add a New Book</h2>
+            <p class="text-xs text-gray-500">Expand the library collection</p>
           </div>
         </div>
 
-        <!-- Hidden datalists (required by existing JS) -->
-        <datalist id="bookIds"></datalist>
-        <datalist id="borrowedBookIds"></datalist>
-
-        <!-- Book grid — ID preserved for JS -->
-        <div id="bookList" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+        <form id="addForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Book Title</label>
+            <input type="text" id="newTitle" placeholder="e.g. The Great Gatsby" required
+                   class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl
+                          focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent transition-all"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Author</label>
+            <input type="text" id="newAuthor" placeholder="e.g. F. Scott Fitzgerald" required
+                   class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl
+                          focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent transition-all"/>
+          </div>
+          <button type="submit"
+                  class="w-full bg-violet-600 hover:bg-violet-700 active:scale-95 text-white text-sm font-semibold
+                         py-3 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-violet-200/60
+                         flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Add Book
+          </button>
+        </form>
       </section>
-
     </main>
 
     <footer class="px-8 py-4 border-t border-gray-100 text-center text-xs text-gray-400">
