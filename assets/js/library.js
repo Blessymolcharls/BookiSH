@@ -24,18 +24,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ─── FETCH FROM CGI ────────────────────────────────────────────────────
     function loadBooks() {
-        showLoading(true);
-        fetch('/cgi-bin/c_program.exe')
+        window.showLoading();
+        fetch('/cgi-bin/c_program.cgi')
             .then(res => {
                 if (!res.ok) throw new Error('CGI fetch failed');
                 return res.json();
             })
             .then(data => {
                 books = data || [];
-                render(books);
+                populateFilters();
+                applyFilters();
                 updateDataLists();
                 updateStats();
-                showLoading(false);
+                window.hideLoading();
             })
             .catch(err => {
                 console.warn('CGI unavailable, falling back to books.json:', err);
@@ -43,19 +44,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(r => r.json())
                     .then(data => {
                         books = data || [];
-                        render(books);
+                        populateFilters();
+                        applyFilters();
                         updateDataLists();
                         updateStats();
-                        showLoading(false);
+                        window.hideLoading();
                     })
-                    .catch(e => { console.error('Error loading books:', e); showLoading(false); });
+                    .catch(e => { console.error('Error loading books:', e); window.hideLoading(); });
             });
-    }
-
-    // ─── LOADING SPINNER ───────────────────────────────────────────────────
-    function showLoading(show) {
-        const el = document.getElementById('loadingSpinner');
-        if (el) el.style.display = show ? 'flex' : 'none';
     }
 
     // ─── STATS ─────────────────────────────────────────────────────────────
@@ -76,10 +72,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (list.length === 0) {
             bookList.innerHTML = `
-              <div class="col-span-full flex flex-col items-center justify-center py-20 text-center">
-                <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4 text-3xl">📭</div>
-                <h3 class="text-base font-semibold text-gray-700 mb-1">No books found</h3>
-                <p class="text-sm text-gray-400">Try adjusting your search or add a new book.</p>
+              <div class="col-span-full flex flex-col items-center justify-center py-20 text-center text-white/50">
+                <div class="text-5xl mb-4">📭</div>
+                <h3 class="text-lg font-semibold text-white mb-1">No books found</h3>
+                <p class="text-sm">Try adjusting your search or add a new book.</p>
               </div>`;
             return;
         }
@@ -87,34 +83,70 @@ document.addEventListener('DOMContentLoaded', function () {
         list.forEach((book, i) => {
             const borrowed = book.student && book.student.trim().length > 0;
             const card = document.createElement('div');
-            card.className = 'book-card bg-white rounded-2xl border border-gray-100 shadow-sm p-5 ' +
-                             'border-l-4 ' + (borrowed ? 'border-l-amber-400' : 'border-l-indigo-500') +
-                             ' hover:-translate-y-1 hover:shadow-md transition-all duration-200';
+            card.className = 'product-card fade-up';
             card.style.animationDelay = `${i * 40}ms`;
-            card.innerHTML = `
-              <div class="flex items-start justify-between gap-2 mb-3">
-                <h3 class="font-semibold text-gray-900 text-sm leading-snug line-clamp-2">${book.name}</h3>
-                <span class="flex-shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold
-                             ${borrowed
-                               ? 'bg-amber-100 text-amber-700'
-                               : 'bg-emerald-100 text-emerald-700'}">
-                  ${borrowed ? '● Borrowed' : '● Available'}
-                </span>
-              </div>
-              <div class="space-y-1.5 text-xs text-gray-500 mb-4">
-                <p><span class="font-medium text-gray-700">ID:</span> ${book.id}</p>
-                <p><span class="font-medium text-gray-700">Author:</span> ${book.author}</p>
-                ${borrowed ? `<p><span class="font-medium text-gray-700">Borrowed by:</span> <span class="text-amber-600 font-medium">${book.student}</span></p>` : ''}
-              </div>
-              <button onclick="deleteBook('${book.id}')"
-                      class="flex items-center gap-1.5 text-xs font-semibold text-red-500 hover:text-white
-                             bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500
-                             px-3 py-1.5 rounded-lg transition-all duration-200 active:scale-95">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                </svg>
-                Delete
-              </button>`;
+            
+            // Build the card HTML
+            if (document.body.dataset.page === 'available') {
+                card.innerHTML = `
+                  <div class="product-image flex flex-col items-center justify-center bg-black/40 relative overflow-hidden" style="height: 160px;">
+                    ${book.cover ? `<img src="${book.cover}" alt="Cover" class="absolute inset-0 w-full h-full object-cover opacity-80" />` : `<div style="font-size: 4rem; z-index: 10;">📖</div>`}
+                  </div>
+                  <div class="product-info flex flex-col h-full">
+                    <div class="product-header">
+                      <h3 class="product-title truncate" title="${book.name}">${book.name}</h3>
+                    </div>
+                    <div class="product-price mt-1 text-sm font-normal text-white/60 truncate" title="${book.author}">
+                      By ${book.author}
+                    </div>
+                    ${book.genre ? `<div class="text-xs text-indigo-400 mt-1">${book.genre}</div>` : ''}
+                    
+                    <div class="mt-3 flex items-center justify-between">
+                      <span class="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${borrowed ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}">
+                        ${borrowed ? '● Currently Unavailable' : '● Available'}
+                      </span>
+                    </div>
+                    
+                    <div class="product-actions mt-auto pt-4 flex gap-2">
+                      <button onclick="Swal.fire({title: \`${book.name.replace(/`/g, '')}\`, text: \`${(book.description || 'No description available.').replace(/`/g, '')}\`, icon: 'info', confirmButtonColor: '#6366f1'})"
+                              class="btn-outline flex-1 border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 flex items-center justify-center gap-2 text-xs py-2">
+                        View Details
+                      </button>
+                    </div>
+                  </div>`;
+            } else {
+                card.innerHTML = `
+                  <div class="product-image flex items-center justify-center bg-black/40" style="height: 160px;">
+                    <div style="font-size: 4rem;">📖</div>
+                  </div>
+                  <div class="product-info flex flex-col h-full">
+                    <div class="product-header">
+                      <h3 class="product-title truncate" title="${book.name}">${book.name}</h3>
+                    </div>
+                    <div class="product-price mt-1 text-sm font-normal text-white/60 truncate" title="${book.author}">
+                      By ${book.author}
+                    </div>
+                    <div class="text-xs text-white/40 mt-1 font-mono">ID: ${book.id}</div>
+                    
+                    <div class="mt-3 flex items-center justify-between">
+                      <span class="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${borrowed ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}">
+                        ${borrowed ? '● Borrowed' : '● Available'}
+                      </span>
+                    </div>
+                    
+                    ${borrowed ? `<div class="mt-2 text-xs text-amber-300 truncate">By: ${book.student}</div>` : `<div class="mt-2 text-xs opacity-0">.</div>`}
+                    
+                    <div class="product-actions mt-auto pt-4 flex gap-2">
+                      <button onclick="deleteBook('${book.id}')"
+                              class="btn-outline flex-1 border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50 flex items-center justify-center gap-2 text-xs py-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        Delete
+                      </button>
+                    </div>
+                  </div>`;
+            }
             bookList.appendChild(card);
         });
     }
@@ -129,15 +161,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ─── DELETE ────────────────────────────────────────────────────────────
     window.deleteBook = function (id) {
-        if (!confirm('Delete this book permanently?')) return;
-        fetch('/cgi-bin/c_program.exe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'delete', id })
-        })
-        .then(r => r.json())
-        .then(res => { if (res.status === 'Deleted') loadBooks(); else alert('Error: ' + res.status); })
-        .catch(() => alert('Cannot delete — ensure CGI server is running.'));
+        showConfirmation('Delete Book?', 'Are you sure you want to permanently delete this book?', 'Delete', 'Cancel')
+        .then((result) => {
+            if (result.isConfirmed) {
+                window.showLoading();
+                fetch('/cgi-bin/c_program.cgi', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'delete', id })
+                })
+                .then(r => r.json())
+                .then(res => { 
+                    window.hideLoading();
+                    if (res.status === 'Deleted') {
+                        showToast('Book deleted', 'success');
+                        loadBooks();
+                    } else {
+                        showError('Error', res.status);
+                    }
+                })
+                .catch(() => {
+                    window.hideLoading();
+                    showError('Error', 'Cannot delete — ensure CGI server is running.');
+                });
+            }
+        });
     };
 
     // ─── ADD ───────────────────────────────────────────────────────────────
@@ -145,14 +193,27 @@ document.addEventListener('DOMContentLoaded', function () {
         addForm.addEventListener('submit', e => {
             e.preventDefault();
             const id = String(Math.floor(Math.random() * 9000000000) + 1000000000);
-            fetch('/cgi-bin/c_program.exe', {
+            window.showLoading();
+            fetch('/cgi-bin/c_program.cgi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'add', id, name: document.getElementById('newTitle').value, author: document.getElementById('newAuthor').value })
             })
             .then(r => r.json())
-            .then(res => { if (res.status === 'Added') { alert('Book added!'); addForm.reset(); loadBooks(); } else alert('Error: ' + res.status); })
-            .catch(() => alert('Operation failed. Ensure CGI server is running.'));
+            .then(res => { 
+                window.hideLoading();
+                if (res.status === 'Added') { 
+                    showSuccess('Book Added!', 'The book has been successfully added to the catalog.'); 
+                    addForm.reset(); 
+                    loadBooks(); 
+                } else {
+                    showError('Add Failed', res.status);
+                } 
+            })
+            .catch(() => {
+                window.hideLoading();
+                showError('Network Error', 'Operation failed. Ensure CGI server is running.');
+            });
         });
     }
 
@@ -160,14 +221,32 @@ document.addEventListener('DOMContentLoaded', function () {
     if (borrowForm) {
         borrowForm.addEventListener('submit', e => {
             e.preventDefault();
-            fetch('/cgi-bin/c_program.exe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'borrow', id: document.getElementById('borrowTitle').value, student: document.getElementById('borrower').value })
-            })
-            .then(r => r.json())
-            .then(res => { alert(res.status); if (res.status === 'Borrowed') { borrowForm.reset(); loadBooks(); } })
-            .catch(() => alert('Operation failed. Ensure CGI server is running.'));
+            showConfirmation('Borrow this book?', 'Are you sure you want to borrow this book?', 'Borrow', 'Cancel')
+            .then((result) => {
+                if (result.isConfirmed) {
+                    window.showLoading();
+                    fetch('/cgi-bin/c_program.cgi', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'borrow', id: document.getElementById('borrowTitle').value, student: document.getElementById('borrower').value })
+                    })
+                    .then(r => r.json())
+                    .then(res => { 
+                        window.hideLoading();
+                        if (res.status === 'Borrowed') { 
+                            showSuccess('Book Borrowed!', 'The book has been successfully borrowed.');
+                            borrowForm.reset(); 
+                            loadBooks(); 
+                        } else {
+                            showError('Borrow Failed', res.status);
+                        }
+                    })
+                    .catch(() => {
+                        window.hideLoading();
+                        showError('Network Error', 'Operation failed. Ensure CGI server is running.');
+                    });
+                }
+            });
         });
     }
 
@@ -175,26 +254,76 @@ document.addEventListener('DOMContentLoaded', function () {
     if (returnForm) {
         returnForm.addEventListener('submit', e => {
             e.preventDefault();
-            fetch('/cgi-bin/c_program.exe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'return', id: document.getElementById('returnTitle').value })
-            })
-            .then(r => r.json())
-            .then(res => { alert(res.status); if (res.status === 'Returned') { returnForm.reset(); loadBooks(); } })
-            .catch(() => alert('Operation failed. Ensure CGI server is running.'));
+            showConfirmation('Return this book?', 'Are you sure you want to return this book?', 'Return', 'Cancel')
+            .then((result) => {
+                if (result.isConfirmed) {
+                    window.showLoading();
+                    fetch('/cgi-bin/c_program.cgi', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'return', id: document.getElementById('returnTitle').value })
+                    })
+                    .then(r => r.json())
+                    .then(res => { 
+                        window.hideLoading();
+                        if (res.status === 'Returned') { 
+                            showSuccess('Book Returned!', 'The book has been successfully returned.');
+                            returnForm.reset(); 
+                            loadBooks(); 
+                        } else {
+                            showError('Return Failed', res.status);
+                        }
+                    })
+                    .catch(() => {
+                        window.hideLoading();
+                        showError('Network Error', 'Operation failed. Ensure CGI server is running.');
+                    });
+                }
+            });
         });
     }
 
-    // ─── SEARCH ────────────────────────────────────────────────────────────
-    if (searchInput) {
-        searchInput.addEventListener('input', e => {
-            const q = e.target.value.toLowerCase().trim();
-            render(books.filter(b =>
-                b.name.toLowerCase().includes(q) ||
-                b.author.toLowerCase().includes(q) ||
-                b.id.toLowerCase().includes(q)
-            ));
-        });
+    // ─── SEARCH & FILTER ───────────────────────────────────────────────────
+    function populateFilters() {
+        const catFilter = document.getElementById('filterCategory');
+        if (catFilter) {
+            const genres = [...new Set(books.map(b => b.genre).filter(g => g))].sort();
+            catFilter.innerHTML = '<option value="">All Categories</option>' + 
+                genres.map(g => `<option value="${g}">${g}</option>`).join('');
+        }
     }
+
+    function applyFilters() {
+        let filtered = [...books];
+        
+        const q = (searchInput ? searchInput.value : '').toLowerCase().trim();
+        if (q) {
+            filtered = filtered.filter(b => 
+                b.name.toLowerCase().includes(q) || 
+                b.author.toLowerCase().includes(q) || 
+                (document.body.dataset.page !== 'available' && b.id.toLowerCase().includes(q))
+            );
+        }
+        
+        if (document.body.dataset.page === 'available') {
+            const cat = document.getElementById('filterCategory')?.value;
+            if (cat) {
+                filtered = filtered.filter(b => b.genre === cat);
+            }
+            const avail = document.getElementById('filterAvailability')?.value;
+            if (avail === 'available') {
+                filtered = filtered.filter(b => !b.student || !b.student.trim());
+            } else if (avail === 'borrowed') {
+                filtered = filtered.filter(b => b.student && b.student.trim());
+            }
+        }
+        
+        render(filtered);
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+    const catFilter = document.getElementById('filterCategory');
+    if (catFilter) catFilter.addEventListener('change', applyFilters);
+    const availFilter = document.getElementById('filterAvailability');
+    if (availFilter) availFilter.addEventListener('change', applyFilters);
 });

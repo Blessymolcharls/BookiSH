@@ -43,3 +43,11 @@ ehthumbs.db
 *.tmp
 *.bak
 *.backup
+
+# Python HTTP Server
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Database
+# books.json

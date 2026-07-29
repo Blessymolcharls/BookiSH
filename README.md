@@ -1,91 +1,117 @@
-# BookiSH – Library Management System
+# BookiSH
 
-BookiSH is a lightweight, easy-to-deploy Library Management System built with plain HTML, CSS, JavaScript, and C-based CGI for server-side handling.
+A lightweight, elegant Library Management System built with HTML, CSS, JavaScript, and a C-based CGI backend.
 
-## Features
+---
 
-- Add, list, borrow, and return books (client-side UI + CGI-backed actions).
-- Minimal server component implemented in C (`server.c` / `c_program.cgi`).
-- Static front-end: responsive HTML/CSS with small JavaScript for UX.
-- Works with a JSON-backed demo dataset (`books.json`).
+##  Project Overview
 
-## Tech Stack
+**BookiSH** is a fast and easy-to-deploy Library Management System designed to streamline daily library operations. It was built to demonstrate a fundamental understanding of web technologies and CGI-based server architecture. The project focuses on providing a clean, responsive user interface alongside a minimal, performant backend written in C.
 
-- Frontend: HTML, CSS, JavaScript
-- Server-side: C (CGI program) and/or simple static hosting for demo mode
-- Data: `books.json` (demo)
+---
 
-## Repository Structure
+##  Features
 
-The project root contains the core HTML pages and assets:
+###  Library Management
+- **Browse Books:** View a complete catalog of available books.
+- **Add Books:** Register new books into the library system.
+- **Borrow Books:** Seamlessly check out books for users.
+- **Return Books:** Process book returns effortlessly.
 
-- add.html — UI to add a new book
-- borrow.html — Borrowing workflow UI
-- return.html — Returning workflow UI
-- index.html — Home / landing page
-- library.html — Main book listing
-- login.html — Simple login page (UI only)
-- resources.html — Additional resources/help
-- books.json — Demo dataset used by the frontend
-- server.c — C server/CGI example (compile & deploy as needed)
-- c_program.cgi — Compiled CGI binary (example placed in `cgi-bin/`)
-- assets/
-  - css/ — stylesheets (`index.css`, `library.css`, `login.css`)
-  - js/ — frontend scripts (`library.js`)
-- cgi-bin/ — location for CGI executables
+###  User Interface
+- **Responsive Design:** Works beautifully across desktop and mobile devices.
+- **Modern UI:** Clean, intuitive, and visually appealing layouts.
+- **Easy Navigation:** User-centric workflows for adding, borrowing, and returning books.
 
-Use these files as the basis for customization or replacement with a full backend.
+###  Backend
+- **CGI-based Server:** Minimal backend logic implemented in C (`server.c` / `c_program.cgi`).
+- **JSON Database:** Uses `books.json` as a lightweight demo dataset.
 
-## Quickstart — Run Locally (Static Demo)
+---
 
-For most development and demo purposes you can run the frontend as static files using a simple HTTP server. From the project root run:
 
-```powershell
-# Python 3.x
-python -m http.server 8000
+##  Tech Stack
 
-# then open http://localhost:8000 in your browser
+| Technology | Purpose |
+|------------|---------|
+| **HTML5** | Application Structure |
+| **CSS3** | Modern Styling & Responsive Layouts |
+| **JavaScript** | Dynamic Frontend Logic & Interactivity |
+| **C** | CGI Backend Server Logic |
+| **JSON** | Demo Database Storage |
+
+---
+
+##  Folder Structure
+
+```text
+BookiSH/
+├── assets/
+│   ├── css/
+│   └── js/
+├── cgi-bin/
+├── add.html
+├── borrow.html
+├── index.html
+├── library.html
+├── login.html
+├── resources.html
+├── return.html
+├── books.json
+├── server.c
+├── c_program.cgi
+├── README.md
+└── CONTRIBUTING.md
 ```
 
-The static demo will use `books.json` and client-side logic in `assets/js/library.js` to showcase the UI and flows.
+##  Installation
 
-## Quickstart — Run CGI (Linux/macOS or Windows with CGI-capable server)
+### Static Demo
 
-1. Compile `server.c` or your CGI program on the host that will run it. Example (Linux):
+For development and UI testing, you can run the frontend as static files using a simple HTTP server. From the project root, run:
 
 ```bash
-gcc -o c_program.cgi server.c
-chmod +x c_program.cgi
+# Using Python 3.x
+python -m http.server --cgi 8080
 ```
+*Then, open `http://localhost:8080` in your web browser to view the application.*
 
-2. Place the `c_program.cgi` binary into your server's `cgi-bin` directory and configure your web server (Apache, nginx+fcgiwrap, or other) to allow CGI execution.
+### CGI Version
 
-3. Restart the server and test the CGI endpoints via the HTML pages.
+To run the full application with the C-based backend:
 
-Notes:
-- CGI setup varies by OS and webserver — consult your webserver docs for enabling CGI and configuring `cgi-bin`.
-- On Windows, consider using WSL or a webserver that supports CGI for best compatibility.
+1. **Compile the server code** (Linux/macOS or Windows via WSL):
+   ```bash
+   gcc -o c_program.cgi server.c
+   chmod +x c_program.cgi
+   ```
 
-## Data
+2. **Deploy**:
+   - Place the compiled `c_program.cgi` executable into your web server's `cgi-bin/` directory.
+   - Ensure your web server (e.g., Apache, Nginx) is configured to allow CGI execution.
+   - Restart the server and access the HTML pages through your configured local host.
 
-This project uses `books.json` as a demo dataset located at the repository root. For production use, replace client-side storage with a proper database and secure server-side endpoints.
+---
 
-## Customization
+##  Usage
 
-- Replace the CGI program with a REST API (Node, Python, Go, etc.) and update form action URLs accordingly.
-- Migrate `books.json` to an actual database (SQLite/MySQL/Postgres) for persistent storage.
-- Improve authentication (the current `login.html` is UI-only and not secure).
+Once the application is running, users can interact with the intuitive interface to perform the following actions:
 
-## Contributing
+- **Browse Books:** Navigate to the Library page to see the full list of available titles.
+- **Borrow Books:** Use the Borrow section to select a book and mark it as checked out.
+- **Return Books:** Go to the Return section to check a book back into the library.
+- **Add Books:** Access the Add section to expand the catalog with new book entries.
 
-Contributions are welcome. Please follow these steps:
+---
 
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature/my-feature`.
-3. Make your changes and include tests where applicable.
-4. Open a pull request describing your changes.
+## ⚙️ Configuration
 
-Guidelines:
-- Keep changes focused and documented.
-- If adding server-side features, include clear setup and run instructions.
+- **`books.json`**: Acts as the primary data source for the frontend. You can manually edit this file to add or remove demo books. Ensure the file has read/write permissions for the server user if the backend modifies it.
+- **CGI Server Configuration**: 
+  - **Directory Mapping**: Ensure your web server (e.g., Apache/Nginx) maps the `/cgi-bin/` route to the physical directory where `c_program.cgi` resides.
+  - **Permissions**: The compiled `c_program.cgi` must have executable permissions (`chmod +x`).
+  - **Handler Setup**: Enable the `cgi` or `fcgid` module in Apache, or configure `fcgiwrap` with Nginx to allow `.cgi` file execution.
+- **Changing Ports**: If port `8080` is in use, modify the Python server command (e.g., `python -m http.server 3000`).
+
+---
 

@@ -3,42 +3,88 @@
     "id": "12345678901234",
     "name": "Jane Eyre",
     "author": "Charlotte Brontë",
-    "student": ""
+    "student": "",
+    "genre": "Classic",
+    "isbn": "978-0141441146",
+    "shelf": "A1-Top",
+    "description": "Jane Eyre follows the emotions and experiences of its eponymous heroine, including her growth to adulthood.",
+    "cover": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=150&auto=format&fit=crop"
   },
   {
     "id": "34246576879861",
     "name": "War and Peace",
     "author": "Leo Tolstoy",
-    "student": ""
+    "student": "",
+    "genre": "Historical Fiction",
+    "isbn": "978-1400079988",
+    "shelf": "B2-Mid",
+    "description": "A classic novel that chronicles the French invasion of Russia and the impact of the Napoleonic era.",
+    "cover": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=150&auto=format&fit=crop"
   },
   {
     "id": "1745257889273",
-    "name": "Harry Potter ",
+    "name": "Harry Potter",
     "author": "JK Rowling",
-    "student": ""
+    "student": "Blessy",
+    "genre": "Fantasy",
+    "isbn": "978-0590353427",
+    "shelf": "C1-Bot",
+    "description": "The first book in the Harry Potter series, following a young wizard's journey.",
+    "cover": "https://images.unsplash.com/photo-1626618012641-bfbca5a31239?q=80&w=150&auto=format&fit=crop"
   },
   {
     "id": "1745258117574",
     "name": "Romeo and Juliet",
     "author": "William Shakespeare",
-    "student": ""
+    "student": "Blessy Mol",
+    "genre": "Tragedy",
+    "isbn": "978-0743477116",
+    "shelf": "A2-Top",
+    "description": "A tragedy written early in the career of William Shakespeare about two young Italian star-crossed lovers.",
+    "cover": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=150&auto=format&fit=crop"
   },
   {
     "id": "1745258117575",
     "name": "The Great Gatsby",
     "author": "F. Scott Fitzgerald",
-    "student": ""
+    "student": "Blessy Mol",
+    "genre": "Classic",
+    "isbn": "978-0743273565",
+    "shelf": "D3-Mid",
+    "description": "A 1925 novel set in the Jazz Age on Long Island.",
+    "cover": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=150&auto=format&fit=crop"
   },
   {
     "id": "999",
     "name": "Test",
     "author": "Tester",
-    "student": ""
+    "student": "",
+    "genre": "Technical",
+    "isbn": "000-0000000000",
+    "shelf": "X9-Bot",
+    "description": "A test book for checking the system.",
+    "cover": "https://images.unsplash.com/photo-1495640388908-05fa85288e61?q=80&w=150&auto=format&fit=crop"
   },
   {
     "id": "9199937575",
     "name": "ARRANDUR",
     "author": "Michel Ritter",
-    "student": ""
+    "student": "Blessy",
+    "genre": "Fiction",
+    "isbn": "978-1234567890",
+    "shelf": "B1-Top",
+    "description": "An adventurous tale of unknown lands.",
+    "cover": "https://images.unsplash.com/photo-1511108690759-009324a90311?q=80&w=150&auto=format&fit=crop"
+  },
+  {
+    "id": "7463136259",
+    "name": "Test Cartzo Book",
+    "author": "Test Cartzo Author",
+    "student": "Test Student",
+    "genre": "Technical",
+    "isbn": "111-2223334445",
+    "shelf": "C3-Bot",
+    "description": "Another test book used for verification.",
+    "cover": "https://images.unsplash.com/photo-1456953180671-730de08edaa7?q=80&w=150&auto=format&fit=crop"
   }
 ]

@@ -1,199 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BookiSH — Resources</title>
   <meta name="description" content="External reading resources for BookiSH library members."/>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/theme.css" />
   <style>
-    * { font-family: 'Inter', sans-serif; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .sub-nav-item.active {
+      border: 1px solid #fff;
+      background: rgba(255,255,255,0.1);
     }
-    .fade-up  { animation: fadeUp .35s ease-out both; }
   </style>
 </head>
-<body class="bg-slate-50 text-gray-800 min-h-screen" data-page="resources">
+<body data-page="resources">
 
-  <!-- Mobile overlay -->
-  <div id="overlay" onclick="closeSidebar()"
-       class="fixed inset-0 bg-black/40 z-20 hidden lg:hidden"></div>
+<div class="flex min-h-screen">
 
   <!-- ===== SIDEBAR ===== -->
-  <aside id="sidebar"
-         class="fixed inset-y-0 left-0 w-64 bg-slate-900 z-30 flex flex-col
-                -translate-x-full lg:translate-x-0 transition-transform duration-300">
-
-    <!-- Logo -->
-    <div class="px-6 py-5 border-b border-slate-700/60">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl">📚</span>
-        <span class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">BookiSH</span>
-      </div>
-      <p class="text-slate-500 text-[11px] font-semibold tracking-widest uppercase mt-1">Library System</p>
+  <aside class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[#050505] border-r border-white/10 p-6">
+    <!-- Navbar Brand / Logo -->
+    <div class="navbar-brand-wrap mb-10">
+      <a href="index.html" class="navbar-brand">
+        <div class="navbar-logo">📚</div>
+        BookiSH
+      </a>
     </div>
 
-    <!-- Nav links -->
-    <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-
-      <a href="library.html" onclick="activate(this)" data-page="library"
-         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-        </svg>
-        Library
-      </a>
-
-      <a href="borrow.html" onclick="activate(this)" data-page="borrow"
-         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
-        </svg>
-        Borrow
-      </a>
-
-      <a href="return.html" onclick="activate(this)" data-page="return"
-         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-        </svg>
-        Return
-      </a>
-
-      <a href="add.html" onclick="activate(this)" data-page="add"
-         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-        </svg>
-        Add Book
-      </a>
-
-      <a href="resources.html" onclick="activate(this)" data-page="resources"
-         class="nav-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.1-1.1m-.758-4.9a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-        </svg>
-        Resources
-      </a>
+    <!-- Nav Links -->
+    <nav class="flex flex-col gap-2">
+      <a href="available.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Browse Catalog</a>
+      <a href="resources.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Reading Resources</a>
     </nav>
-
-    <!-- User chip -->
-    <div class="px-3 py-4 border-t border-slate-700/60">
-      <div class="flex items-center gap-3 bg-slate-800 rounded-xl px-3 py-2.5">
-        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">A</div>
-        <div class="min-w-0">
-          <p class="text-white text-sm font-semibold truncate">Admin</p>
-          <p class="text-slate-500 text-xs">Administrator</p>
-        </div>
-      </div>
-    </div>
   </aside>
 
-  <!-- ===== MAIN WRAPPER ===== -->
-  <div class="lg:ml-64 flex flex-col min-h-screen">
+  <!-- ===== MAIN CONTENT WRAPPER ===== -->
+  <div class="ml-64 flex-1 flex flex-col pt-8">
 
-    <!-- Top Navbar -->
-    <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 lg:px-8 h-16 flex items-center gap-4">
-      <!-- Hamburger -->
-      <button onclick="openSidebar()" class="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-
-      <div class="flex flex-col">
-        <span class="text-xs text-gray-500">Library System</span>
-        <h1 class="text-sm font-semibold text-gray-900">Resources</h1>
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="app-content products-page">
+    
+    <div class="products-header">
+      <div>
+        <h1>Reading Resources</h1>
+        <p>Explore trusted websites to read books, discover authors, and access free digital libraries.</p>
       </div>
+    </div>
 
-      <!-- Right -->
-      <div class="ml-auto flex items-center gap-3">
-        <span class="hidden sm:flex items-center gap-1.5 text-sm text-gray-500">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
-          Welcome, <strong class="text-gray-800 font-semibold">Admin</strong>
-        </span>
-        <a href="login.html"
-           class="flex items-center gap-1.5 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold
-                  px-4 py-2 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-200/60">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
-          Logout
-        </a>
-      </div>
-    </header>
-
-    <!-- Page Content -->
-    <main class="flex-1 px-4 lg:px-8 py-8">
-      <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 fade-up">
-        <div class="flex items-center gap-3 mb-5">
-          <div class="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center flex-shrink-0">
-            <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.1-1.1m-.758-4.9a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-            </svg>
-          </div>
-          <div>
-            <h2 class="text-base font-bold text-gray-900">More About Books</h2>
-            <p class="text-xs text-gray-500">Explore external reading resources</p>
-          </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-6xl">
+      <!-- Project Gutenberg -->
+      <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 0ms;">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">📖</div>
+          <h3 class="text-lg font-bold text-white">Project Gutenberg</h3>
         </div>
-        <ul class="flex flex-wrap gap-3">
-          <li><a href="https://www.gutenberg.org/" target="_blank"
-                 class="flex items-center gap-2 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-200
-                        text-gray-700 hover:text-indigo-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-all duration-200">
-            📖 Project Gutenberg
-          </a></li>
-          <li><a href="https://www.goodreads.com/" target="_blank"
-                 class="flex items-center gap-2 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-200
-                        text-gray-700 hover:text-indigo-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-all duration-200">
-            ⭐ Goodreads
-          </a></li>
-          <li><a href="https://openlibrary.org/" target="_blank"
-                 class="flex items-center gap-2 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-200
-                        text-gray-700 hover:text-indigo-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-all duration-200">
-            🏛️ Open Library
-          </a></li>
-        </ul>
-      </section>
-    </main>
+        <p class="text-sm text-slate-300 flex-1 leading-relaxed">A library of over 70,000 free eBooks, focusing on older works for which copyright has expired.</p>
+        <a href="https://www.gutenberg.org/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+      </div>
 
-    <footer class="px-8 py-4 border-t border-gray-100 text-center text-xs text-gray-400">
-      © 2025 BookiSH · Library Management System
-    </footer>
-  </div>
+      <!-- Open Library -->
+      <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 40ms;">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">🏛️</div>
+          <h3 class="text-lg font-bold text-white">Open Library</h3>
+        </div>
+        <p class="text-sm text-slate-300 flex-1 leading-relaxed">An open, editable library catalog, building towards a web page for every book ever published.</p>
+        <a href="https://openlibrary.org/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+      </div>
 
-  <script>
-    // Sidebar
-    function openSidebar() {
-      document.getElementById('sidebar').classList.remove('-translate-x-full');
-      document.getElementById('overlay').classList.remove('hidden');
-    }
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.add('-translate-x-full');
-      document.getElementById('overlay').classList.add('hidden');
-    }
+      <!-- Goodreads -->
+      <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 80ms;">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">⭐</div>
+          <h3 class="text-lg font-bold text-white">Goodreads</h3>
+        </div>
+        <p class="text-sm text-slate-300 flex-1 leading-relaxed">The world's largest site for readers and book recommendations.</p>
+        <a href="https://www.goodreads.com/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+      </div>
 
-    // Active nav
-    function activate(el) {
-      if (!el) return;
-      document.querySelectorAll('.nav-link').forEach(l => {
-        l.classList.remove('active-link', 'bg-indigo-600', 'text-white');
-        l.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
-      });
-      el.classList.add('bg-indigo-600', 'text-white');
-      el.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
-    }
+      <!-- Google Books -->
+      <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 120ms;">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">🔍</div>
+          <h3 class="text-lg font-bold text-white">Google Books</h3>
+        </div>
+        <p class="text-sm text-slate-300 flex-1 leading-relaxed">Search the world's most comprehensive index of full-text books.</p>
+        <a href="https://books.google.com/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+      </div>
 
-    // Highlight first nav on load
-    document.addEventListener('DOMContentLoaded', () => {
-      const page = document.body.dataset.page;
-      const current = document.querySelector(`.nav-link[data-page="${page}"]`);
-      activate(current || document.querySelector('.nav-link'));
-    });
-  </script>
+      <!-- Internet Archive -->
+      <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 160ms;">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">🌐</div>
+          <h3 class="text-lg font-bold text-white">Internet Archive</h3>
+        </div>
+        <p class="text-sm text-slate-300 flex-1 leading-relaxed">A non-profit library of millions of free books, movies, software, and websites.</p>
+        <a href="https://archive.org/details/texts" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <!-- NDLI -->
+      <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 200ms;">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">🇮🇳</div>
+          <h3 class="text-lg font-bold text-white">NDLI</h3>
+        </div>
+        <p class="text-sm text-slate-300 flex-1 leading-relaxed">National Digital Library of India, a virtual repository of learning resources.</p>
+        <a href="https://ndl.iitkgp.ac.in/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+
+  </main>
+
+
+
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="assets/js/alerts.js"></script>
 </body>
 </html>

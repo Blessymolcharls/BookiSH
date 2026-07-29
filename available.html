@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BookiSH — Library Dashboard</title>
+  <title>BookiSH — Available Books</title>
   <meta name="description" content="BookiSH Library Dashboard — browse, borrow, return and manage books."/>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/theme.css" />
@@ -15,7 +15,7 @@
     }
   </style>
 </head>
-<body data-page="library">
+<body data-page="available">
 
 <div class="flex min-h-screen">
 
@@ -31,22 +31,9 @@
 
     <!-- Nav Links -->
     <nav class="flex flex-col gap-2">
-      <a href="library.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Library</a>
-      <a href="borrow.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Borrow</a>
-      <a href="return.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Return</a>
-      <a href="add.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Add Book</a>
+      <a href="available.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Browse Catalog</a>
+      <a href="resources.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Resources</a>
     </nav>
-    
-    <!-- User/Logout at bottom -->
-    <div class="mt-auto pt-6 border-t border-white/10">
-      <div class="flex items-center justify-between">
-        <span class="flex items-center gap-2 text-sm text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Admin
-        </span>
-        <a href="login.html" class="btn-outline border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50 text-xs py-1.5 px-3">Logout</a>
-      </div>
-    </div>
   </aside>
 
   <!-- ===== MAIN CONTENT WRAPPER ===== -->
@@ -67,30 +54,19 @@
     <!-- Header & Stats -->
     <div class="products-header">
       <div>
-        <h1>Book Collection</h1>
-        <p>Browse and manage all books in the library</p>
+        <h1>Browse Demo Library</h1>
+        <p>Explore our library collection. Search books by title, author, or category.</p>
       </div>
       
-      <div class="flex gap-4">
-        <!-- Stats Cards using product-card style -->
-        <div class="product-card flex-row items-center gap-4 py-3 px-5 border-t-2 border-t-indigo-500">
-          <div class="text-right">
-            <p class="text-xl font-bold text-white leading-none" id="statTotal">—</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Total</p>
-          </div>
-        </div>
-        <div class="product-card flex-row items-center gap-4 py-3 px-5 border-t-2 border-t-emerald-500">
-          <div class="text-right">
-            <p class="text-xl font-bold text-white leading-none" id="statAvailable">—</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Available</p>
-          </div>
-        </div>
-        <div class="product-card flex-row items-center gap-4 py-3 px-5 border-t-2 border-t-amber-500">
-          <div class="text-right">
-            <p class="text-xl font-bold text-white leading-none" id="statBorrowed">—</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Borrowed</p>
-          </div>
-        </div>
+      <div class="flex gap-4 min-w-[300px]">
+        <select id="filterCategory" class="bg-[#0a0a0a] border border-white/10 text-white text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 outline-none">
+          <option value="">All Categories</option>
+        </select>
+        <select id="filterAvailability" class="bg-[#0a0a0a] border border-white/10 text-white text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 outline-none">
+          <option value="">All Availability</option>
+          <option value="available">Available</option>
+          <option value="borrowed">Borrowed</option>
+        </select>
       </div>
     </div>
 

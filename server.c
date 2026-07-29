@@ -15,6 +15,11 @@ typedef struct {
   char name[100];
   char author[100];
   char student[100];
+  char genre[100];
+  char isbn[50];
+  char shelf[50];
+  char description[500];
+  char cover[256];
 } Book;
 
 // ---------------- SAFE JSON EXTRACTION ----------------
@@ -113,6 +118,12 @@ Book *read_books(int *count) {
       books[*count].student[0] = '\0';
     }
 
+    if (!get_json_val(temp, "genre", books[*count].genre, sizeof(books[*count].genre))) { books[*count].genre[0] = '\0'; }
+    if (!get_json_val(temp, "isbn", books[*count].isbn, sizeof(books[*count].isbn))) { books[*count].isbn[0] = '\0'; }
+    if (!get_json_val(temp, "shelf", books[*count].shelf, sizeof(books[*count].shelf))) { books[*count].shelf[0] = '\0'; }
+    if (!get_json_val(temp, "description", books[*count].description, sizeof(books[*count].description))) { books[*count].description[0] = '\0'; }
+    if (!get_json_val(temp, "cover", books[*count].cover, sizeof(books[*count].cover))) { books[*count].cover[0] = '\0'; }
+
     (*count)++;
     ptr = strchr(end + 1, '{');
   }
@@ -134,9 +145,15 @@ void save_books(Book *books, int count) {
             "    \"id\": \"%s\",\n"
             "    \"name\": \"%s\",\n"
             "    \"author\": \"%s\",\n"
-            "    \"student\": \"%s\"\n"
+            "    \"student\": \"%s\",\n"
+            "    \"genre\": \"%s\",\n"
+            "    \"isbn\": \"%s\",\n"
+            "    \"shelf\": \"%s\",\n"
+            "    \"description\": \"%s\",\n"
+            "    \"cover\": \"%s\"\n"
             "  }%s\n",
             books[i].id, books[i].name, books[i].author, books[i].student,
+            books[i].genre, books[i].isbn, books[i].shelf, books[i].description, books[i].cover,
             (i < count - 1) ? "," : "");
   }
   fprintf(f, "]\n");
@@ -155,8 +172,9 @@ void show_books() {
   for (int i = 0; i < count; i++) {
     printf("  "
            "{\"id\":\"%s\",\"name\":\"%s\",\"author\":\"%s\",\"student\":\"%"
-           "s\"}%s\n",
+           "s\",\"genre\":\"%s\",\"isbn\":\"%s\",\"shelf\":\"%s\",\"description\":\"%s\",\"cover\":\"%s\"}%s\n",
            books[i].id, books[i].name, books[i].author, books[i].student,
+           books[i].genre, books[i].isbn, books[i].shelf, books[i].description, books[i].cover,
            (i < count - 1) ? "," : "");
   }
 
@@ -258,6 +276,13 @@ int main() {
           get_json_val(body, "author", books[count].author,
                        sizeof(books[count].author));
           books[count].student[0] = '\0'; // Not borrowed yet
+
+          if (!get_json_val(body, "genre", books[count].genre, sizeof(books[count].genre))) books[count].genre[0] = '\0';
+          if (!get_json_val(body, "isbn", books[count].isbn, sizeof(books[count].isbn))) books[count].isbn[0] = '\0';
+          if (!get_json_val(body, "shelf", books[count].shelf, sizeof(books[count].shelf))) books[count].shelf[0] = '\0';
+          if (!get_json_val(body, "description", books[count].description, sizeof(books[count].description))) books[count].description[0] = '\0';
+          if (!get_json_val(body, "cover", books[count].cover, sizeof(books[count].cover))) books[count].cover[0] = '\0';
+
 
           count++;
           save_books(books, count);
