@@ -50,4 +50,10 @@ __pycache__/
 *$py.class
 
 # Local Database
-# books.json
+books.json
+admins.json
+borrows.json
+students.json
+
+# Test files
+test_c.c

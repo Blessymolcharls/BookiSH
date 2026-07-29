@@ -6,21 +6,16 @@
   <title>BookiSH — Library Dashboard</title>
   <meta name="description" content="BookiSH Library Dashboard — browse, borrow, return and manage books."/>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="assets/css/theme.css" />
-  <style>
-    /* Active sub-nav state */
-    .sub-nav-item.active {
-      border: 1px solid #fff;
-      background: rgba(255,255,255,0.1);
-    }
-  </style>
+  <script src="assets/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="assets/css/theme.css?v=3" />
+  <script src="assets/js/theme-toggle.js"></script>
 </head>
 <body data-page="library">
 
 <div class="flex min-h-screen">
 
   <!-- ===== SIDEBAR ===== -->
-  <aside class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[#050505] border-r border-white/10 p-6">
+  <aside class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[var(--bg-darker)] border-r border-[var(--border-subtle)] p-6">
     <!-- Navbar Brand / Logo -->
     <div class="navbar-brand-wrap mb-10">
       <a href="index.html" class="navbar-brand">
@@ -37,10 +32,16 @@
       <a href="add.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Add Book</a>
     </nav>
     
+    <!-- Theme Toggle -->
+    <div class="mt-auto pt-6 flex items-center justify-between mb-4">
+      <span class="text-sm text-[var(--text-main)] font-semibold">Appearance</span>
+      <button class="theme-toggle" title="Toggle Theme"></button>
+    </div>
+
     <!-- User/Logout at bottom -->
-    <div class="mt-auto pt-6 border-t border-white/10">
+    <div class="pt-4 border-t border-[var(--border-subtle)]">
       <div class="flex items-center justify-between">
-        <span class="flex items-center gap-2 text-sm text-slate-300">
+        <span class="flex items-center gap-2 text-sm text-[var(--text-main)]">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           Admin
         </span>
@@ -52,12 +53,12 @@
   <!-- ===== MAIN CONTENT WRAPPER ===== -->
   <div class="ml-64 flex-1 flex flex-col">
     <!-- Optional Top Bar (just for search if needed) -->
-    <header class="py-4 px-8 border-b border-white/10 flex items-center justify-between bg-[#0a0a0a]">
+    <header class="py-4 px-8 border-b border-[var(--border-subtle)] flex items-center justify-between bg-[var(--bg-darker)]">
       <div class="navbar-search hidden md:flex max-w-md w-full ml-auto">
         <svg class="w-4 h-4 text-slate-400 absolute ml-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
         </svg>
-        <input type="text" id="searchInput" placeholder="Search title, author, or ID…" class="pl-9 w-full bg-transparent border-none text-white outline-none text-sm py-1.5"/>
+        <input type="text" id="searchInput" placeholder="Search title, author, or ID…" class="pl-9 w-full bg-transparent border-none text-[var(--text-main)] outline-none text-sm py-1.5"/>
       </div>
     </header>
 
@@ -72,24 +73,30 @@
       </div>
       
       <div class="flex gap-4">
-        <!-- Stats Cards using product-card style -->
-        <div class="product-card flex-row items-center gap-4 py-3 px-5 border-t-2 border-t-indigo-500">
-          <div class="text-right">
-            <p class="text-xl font-bold text-white leading-none" id="statTotal">—</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Total</p>
-          </div>
+        <!-- Stats Cards -->
+        <div class="stat-card border-t-2 border-t-indigo-500">
+          <p class="text-xl font-bold text-primary leading-none" id="statTotal">—</p>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Total</p>
         </div>
-        <div class="product-card flex-row items-center gap-4 py-3 px-5 border-t-2 border-t-emerald-500">
-          <div class="text-right">
-            <p class="text-xl font-bold text-white leading-none" id="statAvailable">—</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Available</p>
-          </div>
+        <div class="stat-card border-t-2 border-t-emerald-500">
+          <p class="text-xl font-bold text-primary leading-none" id="statAvailable">—</p>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Available</p>
         </div>
-        <div class="product-card flex-row items-center gap-4 py-3 px-5 border-t-2 border-t-amber-500">
-          <div class="text-right">
-            <p class="text-xl font-bold text-white leading-none" id="statBorrowed">—</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Borrowed</p>
-          </div>
+        <div class="stat-card border-t-2 border-t-amber-500">
+          <p class="text-xl font-bold text-primary leading-none" id="statBorrowed">—</p>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Borrowed</p>
+        </div>
+        <div class="stat-card border-t-2 border-t-orange-500">
+          <p class="text-xl font-bold text-primary leading-none" id="statDueToday">—</p>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Due Today</p>
+        </div>
+        <div class="stat-card border-t-2 border-t-red-500">
+          <p class="text-xl font-bold text-primary leading-none" id="statOverdue">—</p>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Overdue</p>
+        </div>
+        <div class="stat-card border-t-2 border-t-purple-500">
+          <p class="text-xl font-bold text-primary leading-none" id="statFines">—</p>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wider mt-1">Fines</p>
         </div>
       </div>
     </div>
@@ -97,6 +104,8 @@
     <!-- Hidden datalists (required by existing JS) -->
     <datalist id="bookIds"></datalist>
     <datalist id="borrowedBookIds"></datalist>
+
+
 
     <!-- Book grid — ID preserved for JS -->
     <div id="bookList" class="products-grid mt-4"></div>
@@ -109,6 +118,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/alerts.js"></script>
-  <script src="assets/js/library.js"></script>
+  <script src="assets/js/library.js?v=7"></script>
 </body>
 </html>

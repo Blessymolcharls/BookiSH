@@ -1,3 +1,10 @@
+/* ===== Global Box-Sizing Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -20,6 +27,14 @@
   --error-bg: rgba(239, 68, 68, 0.14);
   --error-border: rgba(239, 68, 68, 0.35);
   --error-text: #fecaca;
+
+  /* Semantic Variables added for Light/Dark Mode Fixes */
+  --bg-page: #0F0F0F;
+  --bg-card: #171717;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B0B0;
+  --text-muted: #8A8A8A;
+
   font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color-scheme: dark;
 }
@@ -40,6 +55,14 @@
   --error-bg: rgba(239, 68, 68, 0.12);
   --error-border: rgba(239, 68, 68, 0.3);
   --error-text: #991b1b;
+
+  /* Semantic Variables added for Light/Dark Mode Fixes */
+  --bg-page: #F8F9FB;
+  --bg-card: #FFFFFF;
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+
   color-scheme: light;
 }
 
@@ -251,7 +274,7 @@ a {
 
 .sub-nav-item {
   background: transparent;
-  color: #fff;
+  color: var(--text-main);
   border: 1px solid transparent;
   border-radius: 2px;
   padding: 5px 9px;
@@ -264,7 +287,15 @@ a {
 }
 
 .sub-nav-item:hover {
-  border: 1px solid #fff;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* .sub-nav-item.active is also defined at the bottom of this file (absorbed from inline styles) */
+.sub-nav-item.active {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--primary);
 }
 
 /* ===== Products Page ===== */
@@ -301,6 +332,11 @@ a {
   background: #ffffff;
   border-color: rgba(148, 163, 184, 0.3);
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme='light'] .stat-card {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .sidebar-section {
@@ -456,8 +492,9 @@ a {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.6rem;
+  /* minmax floor reduced to 280px so it never overflows on 320px-wide phones */
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+  gap: 24px;
 }
 
 .products-empty {
@@ -475,50 +512,50 @@ a {
   border: 1px solid var(--border-subtle);
   border-radius: 22px;
   padding: 1.4rem;
-  display: grid;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(16px);
+}
+
+.stat-card {
+  background: rgba(17, 24, 39, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  width: 100px;
+  height: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(16px);
+  text-align: center;
+}
+
+.card-title {
+  /* Allow natural wrapping instead of line-clamping */
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.25;
+}
+
+.card-author {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-book-id {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 [data-theme='light'] .product-card {
   background: var(--bg-light);
   box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
-}
-
-.product-image {
-  height: 190px;
-  border-radius: 18px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.product-body h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.4rem;
-}
-
-.product-body p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-.product-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.product-price {
-  font-size: 1.1rem;
-  font-weight: 700;
 }
 
 .product-actions {
@@ -596,7 +633,9 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: hidden;
+  /* overflow:hidden removed — was clipping login/signup card on small screens.
+     overflow-x:hidden prevents horizontal particle bleed without blocking vertical scroll. */
+  overflow-x: hidden;
   background: #0a0a0a;
   color: #f8fafc;
   font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -670,10 +709,23 @@ a {
 }
 
 @keyframes landingParticleDrift {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(30px);
+    opacity: 0;
+  }
 }
 
 .landing-content {
@@ -689,8 +741,15 @@ a {
 }
 
 @keyframes landingFadeIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .landing-logo-wrapper {
@@ -706,15 +765,14 @@ a {
   width: 90px;
   height: 90px;
   border-radius: 28px;
-  background: linear-gradient(135deg, rgba(209, 168, 91, 0.95), rgba(143, 110, 42, 0.95));
+  background: rgba(209, 168, 91, 0.1);
+  border: 1px solid rgba(209, 168, 91, 0.3);
   display: grid;
   place-items: center;
   font-family: 'Montserrat', 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 1.8rem;
-  color: #0a0a0a;
+  font-size: 3rem;
   letter-spacing: 0.08em;
-  box-shadow: 0 0 35px rgba(209, 168, 91, 0.45);
+  box-shadow: 0 0 35px rgba(209, 168, 91, 0.15);
 }
 
 .landing-title {
@@ -745,9 +803,12 @@ a {
   background: rgba(20, 20, 20, 0.7);
   border: 1px solid rgba(209, 168, 91, 0.18);
   border-radius: 24px;
-  padding: 2rem 2.6rem;
+  /* Responsive padding: 2rem top/bottom, fluid horizontal clamped so it never overflows narrow screens */
+  padding: 2rem clamp(1.25rem, 5vw, 2.6rem);
   box-shadow: 0 28px 55px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(24px);
+  /* Prevent the card itself from overflowing its container */
+  width: 100%;
 }
 
 .landing-cta-group {
@@ -816,6 +877,7 @@ a {
 }
 
 @media (max-width: 720px) {
+
   .app-content,
   .navbar-inner,
   .sub-navbar-content {
@@ -839,4 +901,247 @@ a {
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+/* ===== Absorbed from inline <style> blocks on dashboard pages ===== */
+
+/* Landing page entrance animation — was inline on index.html */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.6s ease-out both;
+}
+
+/* ===== My Borrowed Books — Status Badges ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.badge-borrowed {
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.badge-due-soon {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.badge-overdue {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.badge-returned {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* ===== My Borrowed Books — Data Table ===== */
+.data-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.88rem;
+  vertical-align: middle;
+  color: var(--text-main);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+/* ===== My Borrowed Books — Tabs ===== */
+.tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border-subtle);
+  gap: 0;
+}
+
+.tab-btn {
+  padding: 0.65rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+}
+
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.tab-btn:hover:not(.active) {
+  color: var(--text-main);
+}
+
+/* ===== My Borrowed Books — Modal ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal-box {
+  background: var(--bg-darker);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6);
+  animation: fadeUp 0.25s ease-out both;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-close {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.modal-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.88rem;
+}
+
+.modal-detail-row:last-of-type {
+  border-bottom: none;
+}
+
+.modal-detail-label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ===== My Borrowed Books — Summary Stat Cards ===== */
+.summary-card {
+  background: rgba(17, 24, 39, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 140px;
+  backdrop-filter: blur(12px);
+}
+
+.summary-card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.summary-card-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+[data-theme='light'] .summary-card {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+[data-theme='light'] .data-table th {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme='light'] .modal-box {
+  background: #ffffff;
 }

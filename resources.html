@@ -6,20 +6,16 @@
   <title>BookiSH — Resources</title>
   <meta name="description" content="External reading resources for BookiSH library members."/>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="assets/css/theme.css" />
-  <style>
-    .sub-nav-item.active {
-      border: 1px solid #fff;
-      background: rgba(255,255,255,0.1);
-    }
-  </style>
+  <script src="assets/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="assets/css/theme.css?v=3" />
+  <script src="assets/js/theme-toggle.js"></script>
 </head>
 <body data-page="resources">
 
 <div class="flex min-h-screen">
 
   <!-- ===== SIDEBAR ===== -->
-  <aside class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[#050505] border-r border-white/10 p-6">
+  <aside class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[var(--bg-darker)] border-r border-[var(--border-subtle)] p-6">
     <!-- Navbar Brand / Logo -->
     <div class="navbar-brand-wrap mb-10">
       <a href="index.html" class="navbar-brand">
@@ -31,8 +27,25 @@
     <!-- Nav Links -->
     <nav class="flex flex-col gap-2">
       <a href="available.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Browse Catalog</a>
-      <a href="resources.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Reading Resources</a>
+      <a href="my-books.html" id="navMyBooks" class="hidden sub-nav-item text-left py-3 px-4 rounded-xl">My Borrowed Books</a>
+      <a href="resources.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Resources</a>
     </nav>
+
+    <div class="mt-auto flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-[var(--text-main)] font-semibold">Appearance</span>
+        <button class="theme-toggle" title="Toggle Theme"></button>
+      </div>
+      <div id="studentFooter" class="hidden pt-4 border-t border-[var(--border-subtle)]">
+        <div class="flex items-center justify-between">
+          <span class="flex items-center gap-2 text-sm text-[var(--text-main)]">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="studentChip" class="truncate max-w-[100px]">Student</span>
+          </span>
+          <a href="login.html" class="btn-outline border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50 text-xs py-1.5 px-3">Logout</a>
+        </div>
+      </div>
+    </div>
   </aside>
 
   <!-- ===== MAIN CONTENT WRAPPER ===== -->
@@ -53,60 +66,60 @@
       <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 0ms;">
         <div class="flex items-center gap-3">
           <div class="text-3xl">📖</div>
-          <h3 class="text-lg font-bold text-white">Project Gutenberg</h3>
+          <h3 class="text-lg font-bold text-primary">Project Gutenberg</h3>
         </div>
-        <p class="text-sm text-slate-300 flex-1 leading-relaxed">A library of over 70,000 free eBooks, focusing on older works for which copyright has expired.</p>
-        <a href="https://www.gutenberg.org/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+        <p class="text-sm text-[var(--text-muted)] flex-1 leading-relaxed">A library of over 70,000 free eBooks, focusing on older works for which copyright has expired.</p>
+        <a href="https://www.gutenberg.org/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-primary hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <!-- Open Library -->
       <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 40ms;">
         <div class="flex items-center gap-3">
           <div class="text-3xl">🏛️</div>
-          <h3 class="text-lg font-bold text-white">Open Library</h3>
+          <h3 class="text-lg font-bold text-primary">Open Library</h3>
         </div>
-        <p class="text-sm text-slate-300 flex-1 leading-relaxed">An open, editable library catalog, building towards a web page for every book ever published.</p>
-        <a href="https://openlibrary.org/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+        <p class="text-sm text-[var(--text-muted)] flex-1 leading-relaxed">An open, editable library catalog, building towards a web page for every book ever published.</p>
+        <a href="https://openlibrary.org/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-primary hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <!-- Goodreads -->
       <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 80ms;">
         <div class="flex items-center gap-3">
           <div class="text-3xl">⭐</div>
-          <h3 class="text-lg font-bold text-white">Goodreads</h3>
+          <h3 class="text-lg font-bold text-primary">Goodreads</h3>
         </div>
-        <p class="text-sm text-slate-300 flex-1 leading-relaxed">The world's largest site for readers and book recommendations.</p>
-        <a href="https://www.goodreads.com/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+        <p class="text-sm text-[var(--text-muted)] flex-1 leading-relaxed">The world's largest site for readers and book recommendations.</p>
+        <a href="https://www.goodreads.com/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-primary hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <!-- Google Books -->
       <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 120ms;">
         <div class="flex items-center gap-3">
           <div class="text-3xl">🔍</div>
-          <h3 class="text-lg font-bold text-white">Google Books</h3>
+          <h3 class="text-lg font-bold text-primary">Google Books</h3>
         </div>
-        <p class="text-sm text-slate-300 flex-1 leading-relaxed">Search the world's most comprehensive index of full-text books.</p>
-        <a href="https://books.google.com/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+        <p class="text-sm text-[var(--text-muted)] flex-1 leading-relaxed">Search the world's most comprehensive index of full-text books.</p>
+        <a href="https://books.google.com/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-primary hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <!-- Internet Archive -->
       <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 160ms;">
         <div class="flex items-center gap-3">
           <div class="text-3xl">🌐</div>
-          <h3 class="text-lg font-bold text-white">Internet Archive</h3>
+          <h3 class="text-lg font-bold text-primary">Internet Archive</h3>
         </div>
-        <p class="text-sm text-slate-300 flex-1 leading-relaxed">A non-profit library of millions of free books, movies, software, and websites.</p>
-        <a href="https://archive.org/details/texts" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+        <p class="text-sm text-[var(--text-muted)] flex-1 leading-relaxed">A non-profit library of millions of free books, movies, software, and websites.</p>
+        <a href="https://archive.org/details/texts" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-primary hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <!-- NDLI -->
       <div class="product-card p-6 flex flex-col gap-4 fade-up" style="animation-delay: 200ms;">
         <div class="flex items-center gap-3">
           <div class="text-3xl">🇮🇳</div>
-          <h3 class="text-lg font-bold text-white">NDLI</h3>
+          <h3 class="text-lg font-bold text-primary">NDLI</h3>
         </div>
-        <p class="text-sm text-slate-300 flex-1 leading-relaxed">National Digital Library of India, a virtual repository of learning resources.</p>
-        <a href="https://ndl.iitkgp.ac.in/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
+        <p class="text-sm text-[var(--text-muted)] flex-1 leading-relaxed">National Digital Library of India, a virtual repository of learning resources.</p>
+        <a href="https://ndl.iitkgp.ac.in/" target="_blank" class="btn-outline border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/10 hover:text-primary hover:border-indigo-500/50 text-sm py-2 px-4 text-center mt-2 flex items-center justify-center gap-2">Visit Website <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
 
@@ -118,5 +131,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/alerts.js"></script>
+  <script>
+    if (localStorage.getItem('userRole') === 'Student') {
+      const _nav = document.getElementById('navMyBooks');
+      if (_nav) _nav.classList.remove('hidden');
+      const _footer = document.getElementById('studentFooter');
+      if (_footer) _footer.classList.remove('hidden');
+      const _chip = document.getElementById('studentChip');
+      if (_chip && localStorage.getItem('studentName')) _chip.textContent = localStorage.getItem('studentName');
+    }
+  </script>
 </body>
 </html>

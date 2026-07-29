@@ -1,94 +1,109 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BookiSH — Return</title>
-  <meta name="description" content="Return a borrowed book to the BookiSH library."/>
+  <meta name="description" content="Return a borrowed book to the BookiSH library." />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="assets/css/theme.css" />
-  <style>
-    .sub-nav-item.active {
-      border: 1px solid #fff;
-      background: rgba(255,255,255,0.1);
-    }
-  </style>
+  <script src="assets/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="assets/css/theme.css?v=3" />
+  <script src="assets/js/theme-toggle.js"></script>
 </head>
+
 <body data-page="return">
 
-<div class="flex min-h-screen">
+  <div class="flex min-h-screen">
 
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[#050505] border-r border-white/10 p-6">
-    <!-- Navbar Brand / Logo -->
-    <div class="navbar-brand-wrap mb-10">
-      <a href="index.html" class="navbar-brand">
-        <div class="navbar-logo">📚</div>
-        BookiSH
-      </a>
-    </div>
-
-    <!-- Nav Links -->
-    <nav class="flex flex-col gap-2">
-      <a href="library.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Library</a>
-      <a href="borrow.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Borrow</a>
-      <a href="return.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Return</a>
-      <a href="add.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Add Book</a>
-    </nav>
-    
-    <!-- User/Logout at bottom -->
-    <div class="mt-auto pt-6 border-t border-white/10">
-      <div class="flex items-center justify-between">
-        <span class="flex items-center gap-2 text-sm text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Admin
-        </span>
-        <a href="login.html" class="btn-outline border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50 text-xs py-1.5 px-3">Logout</a>
+    <!-- ===== SIDEBAR ===== -->
+    <aside
+      class="w-64 fixed inset-y-0 left-0 z-30 flex flex-col bg-[var(--bg-darker)] border-r border-[var(--border-subtle)] p-6">
+      <!-- Navbar Brand / Logo -->
+      <div class="navbar-brand-wrap mb-10">
+        <a href="index.html" class="navbar-brand">
+          <div class="navbar-logo">📚</div>
+          BookiSH
+        </a>
       </div>
-    </div>
-  </aside>
 
-  <!-- ===== MAIN CONTENT WRAPPER ===== -->
-  <div class="ml-64 flex-1 flex flex-col pt-8">
+      <!-- Nav Links -->
+      <nav class="flex flex-col gap-2">
+        <a href="library.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Library</a>
+        <a href="borrow.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Borrow</a>
+        <a href="return.html" class="sub-nav-item active text-left py-3 px-4 rounded-xl">Return</a>
+        <a href="add.html" class="sub-nav-item text-left py-3 px-4 rounded-xl">Add Book</a>
+      </nav>
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <main class="app-content products-page">
-    
-    <div class="products-header">
-      <div>
-        <h1>Return a Book</h1>
-        <p>Give back a borrowed title</p>
+      <!-- Theme Toggle -->
+      <div class="mt-auto pt-6 flex items-center justify-between mb-4">
+        <span class="text-sm text-[var(--text-main)] font-semibold">Appearance</span>
+        <button class="theme-toggle" title="Toggle Theme"></button>
       </div>
-    </div>
 
-    <!-- Hidden datalist (required by JS) -->
-    <datalist id="borrowedBookIds"></datalist>
-
-    <section class="landing-glass-card max-w-lg mt-4">
-      <form id="returnForm" class="space-y-6">
-        <div>
-          <label class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">Book ID</label>
-          <input type="text" id="returnTitle" placeholder="Select from borrowed books" required list="borrowedBookIds" autocomplete="off"
-                 class="w-full px-4 py-3 text-sm bg-black/20 border border-white/10 rounded-xl text-white
-                        focus:outline-none focus:ring-2 focus:ring-[#d1a85b] focus:border-transparent transition-all"/>
+      <!-- User/Logout at bottom -->
+      <div class="pt-4 border-t border-[var(--border-subtle)]">
+        <div class="flex items-center justify-between">
+          <span class="flex items-center gap-2 text-sm text-[var(--text-main)]">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Admin
+          </span>
+          <a href="login.html"
+            class="btn-outline border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50 text-xs py-1.5 px-3">Logout</a>
         </div>
-        <button type="submit" class="w-full btn-primary py-3 flex items-center justify-center gap-2 mt-4 text-base">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-          Return
-        </button>
-      </form>
-    </section>
+      </div>
+    </aside>
 
-  </main>
+    <!-- ===== MAIN CONTENT WRAPPER ===== -->
+    <div class="ml-64 flex-1 flex flex-col pt-8">
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <main class="app-content products-page">
+
+        <div class="products-header">
+          <div>
+            <h1>Return a Book</h1>
+            <p>Give back a borrowed title</p>
+          </div>
+        </div>
+
+        <!-- Hidden datalist (required by JS) -->
+        <datalist id="borrowedBookIds"></datalist>
+
+        <section class="landing-glass-card max-w-lg mt-4">
+          <form id="returnForm" class="space-y-6">
+            <div>
+              <label class="block text-xs font-semibold text-secondary mb-1.5 uppercase tracking-wide">Book ID</label>
+              <input type="text" id="returnTitle" placeholder="Select from borrowed books" required
+                list="borrowedBookIds" autocomplete="off"
+                class="w-full px-4 py-3 text-sm bg-card border border-subtle rounded-xl text-primary
+                        focus:outline-none focus:ring-2 focus:ring-[#d1a85b] focus:border-transparent transition-all" />
+            </div>
+            <button type="submit" class="w-full btn-primary py-3 flex items-center justify-center gap-2 mt-4 text-base">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+              Return
+            </button>
+          </form>
+        </section>
+
+        <div class="mt-12">
+          <h2 class="text-xl font-bold text-primary mb-4">Return History</h2>
+          <div id="returnHistoryList" class="landing-glass-card p-0 overflow-hidden">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </main>
 
 
 
-</div>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/alerts.js"></script>
-  <script src="assets/js/library.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/alerts.js"></script>
+    <script src="assets/js/library.js?v=7"></script>
 </body>
+
 </html>
