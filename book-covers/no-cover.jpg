@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="130" height="180" viewBox="0 0 130 180">
-  <rect width="130" height="180" rx="8" fill="#0f0f0f"/>
-  <rect x="8" y="8" width="114" height="164" rx="6" fill="#1a1a1a" stroke="#d1a85b" stroke-width="1.5"/>
-  <text x="65" y="88" font-family="sans-serif" font-size="38" text-anchor="middle" fill="#d1a85b">📚</text>
-  <text x="65" y="118" font-family="sans-serif" font-size="8" text-anchor="middle" fill="#666">No Cover</text>
-  <text x="65" y="130" font-family="sans-serif" font-size="8" text-anchor="middle" fill="#666">Available</text>
-</svg>

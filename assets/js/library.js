@@ -34,7 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getISODate(dateObj) {
-        return dateObj.toISOString().split('T')[0];
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 
     function calculateLateDays(dueDateStr) {
@@ -136,9 +139,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (b.status === 'Overdue') {
                 overdueCount++;
-            }
-            if (b.fine) {
-                totalFines += parseInt(b.fine);
+                const lateDays = calculateLateDays(b.due_date);
+                totalFines += lateDays * 10;
+            } else if (b.status === 'Returned' || b.status === 'Returned Late') {
+                if (b.fine) {
+                    totalFines += parseInt(b.fine);
+                }
             }
         });
         
@@ -172,18 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         list.forEach((book, i) => {
             const isAvailable = !activeBorrowedBookIds.has(book.id);
-            const currentStudentId = localStorage.getItem('studentId');
-            const borrowedByMe = borrows.find(b => b.book_id === book.id && b.status === 'Borrowed' && b.student_id === currentStudentId);
-            
             let borrowInfoHtml = `<div class="mt-2 text-xs opacity-0">.</div>`;
-            if (borrowedByMe) {
-                borrowInfoHtml = `
-                    <div class="mt-2 text-xs text-amber-300 truncate">Borrowed by You</div>
-                    <div class="text-[10px] text-secondary mt-1 space-y-0.5">
-                        <div>Borrowed: ${borrowedByMe.borrow_date}</div>
-                        <div>Due: ${borrowedByMe.due_date}</div>
-                    </div>`;
-            }
             
             const card = document.createElement('div');
             card.className = 'product-card fade-up';
